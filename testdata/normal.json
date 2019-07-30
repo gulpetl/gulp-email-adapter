@@ -1,0 +1,22 @@
+{
+    "root": {
+        "section": [
+            {
+                "title": {
+                    "_text": "First"
+                },
+                "content": {
+                    "_text": "Data: buffer"
+                }
+            },
+            {
+                "title": {
+                    "_text": "Second"
+                },
+                "content": {
+                    "_text": "Data: string"
+                }
+            }
+        ]
+    }
+}
