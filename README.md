@@ -50,6 +50,7 @@ QW5heWEsSXllbmdhcixJbmRpYQ==
 --a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a--
 ```
 
+The SES Transport does require an envelop but it can accept an empty envelop as well since the sender and reciever can be retrieved from the mime file.
 
 ##### Sample gulpfile.js
 ```
