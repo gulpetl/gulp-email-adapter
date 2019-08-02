@@ -1,5 +1,5 @@
 let gulp = require('gulp')
-import {jsontoxml} from '../src/plugin'
+import {sendEmails} from '../src/plugin'
 import * as loglevel from 'loglevel'
 //import { strict } from 'assert';
 const log = loglevel.getLogger('gulpfile')
@@ -9,11 +9,11 @@ const PLUGIN_NAME = module.exports.name;
 
 
 //the plugin will be called here
-    export function xml (callback:any) {
-      gulp.src('../testdata/testB.eml')
-        .pipe(jsontoxml())
+    export function sendMail (callback:any) {
+      gulp.src('../testdata/testA.eml')
+        .pipe(sendEmails())
     }
 
  //the roundtrip back to 
 
-exports.default = gulp.series(xml)
+exports.default = gulp.series(sendMail)

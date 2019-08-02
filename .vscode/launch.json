@@ -17,7 +17,8 @@
             ],
             "console": "internalConsole",
             "env": {"DEBUG_LEVEL":"info"}
-        },{        
+        },
+        {        
             "name": "GulpTester Debug",
             "type": "node",
             "request": "launch",
