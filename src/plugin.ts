@@ -23,35 +23,13 @@ export function sendEmails() {
   
   function modifyContents(file: Vinyl, cb:Function) {
    if (file.isNull()) return cb(null, file); 
-
-    /*Stream Mode*/
-    if (file.isStream()) {
-      //var readStream = fs.createReadStream(file.contents);
-   /*   const strm = through2.obj(file.contents)
-      let rawMessage2 = strm.toString('utf8')
-      console.log(rawMessage2)
-      var mailOptions = {
-        envelope: {
-             
-         },
-         raw: rawMessage2
-     };
-     
-     transporter.sendMail(mailOptions, function(error, info){
-           if(error){
-               return console.log(error);
-           }
-           console.log('Message sent: ' + info.response);
-       });*/
-       return cb(new PluginError(PLUGIN_NAME, "Streaming not supported"));
-    } 
+   if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, "Streaming not supported")); // pass error if streaming is not supported
 
    
     /*Buffer Mode*/
     if (file.isBuffer()){
     let fileBuf : Buffer = (file.contents as Buffer)
     let rawMessage2 = fileBuf.toString('utf8')
-    console.log(rawMessage2)
     
     var mailOptions2 = {
          envelope: {

@@ -10,7 +10,7 @@ const PLUGIN_NAME = module.exports.name;
 
 //the plugin will be called here
     export function sendMail (callback:any) {
-      gulp.src('../testdata/testA.eml')
+      gulp.src('../testdata/*.eml')
         .pipe(sendEmails())
     }
 

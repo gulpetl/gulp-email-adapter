@@ -50,18 +50,17 @@ QW5heWEsSXllbmdhcixJbmRpYQ==
 --a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a--
 ```
 
+
 ##### Sample gulpfile.js
 ```
 let gulp = require('gulp')
-import {jsontoxml} from 'gulp-jsontoxml'
+import {sendEmails} from 'gulp-email-adapter'
 var sampleConfigObj = {compact: true, ignoreDeclaration: true, spaces: 4}; // sample configObj
-
-//the plugin will be called here
-    export function xml (callback:any) {
-      gulp.src('../testdata/testA.eml',{buffer:false})
-        .pipe(jsontoxml())
-    }
-
+   
+export function sendMail (callback:any) {
+      gulp.src('../testdata/testA.eml')
+        .pipe(sendEmails())
+    };
 ```
 ### Quick Start
 * Dependencies: 
