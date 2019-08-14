@@ -52,15 +52,17 @@ QW5heWEsSXllbmdhcixJbmRpYQ==
 
 The SES Transport does require an envelop but it can accept an empty envelop as well since the sender and reciever can be retrieved from the mime file.
 
+The plugin accepts a paramter which can be either "SES" or "SMTP". If no parameter is provided, it will assume its SES, and proceed accordingly. SMTP is coming soon so if the user provides "SMTP" as parameter, it will say "SMTP configuration coming soon"
+
 ##### Sample gulpfile.js
 ```
 let gulp = require('gulp')
 import {sendEmails} from 'gulp-email-adapter'
-var sampleConfigObj = {compact: true, ignoreDeclaration: true, spaces: 4}; // sample configObj
-   
+var sampleConfigObj = "SES"; // sample configObj
+
 export function sendMail (callback:any) {
       gulp.src('../testdata/testA.eml')
-        .pipe(sendEmails())
+        .pipe(sendEmails(simpleConfigObj))
     };
 ```
 ### Quick Start

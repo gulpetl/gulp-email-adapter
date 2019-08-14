@@ -6,12 +6,12 @@ const log = loglevel.getLogger('gulpfile')
 log.setLevel((process.env.DEBUG_LEVEL || 'warn') as loglevel.LogLevelDesc)
 const pkginfo = require('pkginfo')(module); // project package.json info into module.exports
 const PLUGIN_NAME = module.exports.name;
-
+var mailOption = "SES";
 
 //the plugin will be called here
     export function sendMail (callback:any) {
       gulp.src('../testdata/*.eml')
-        .pipe(sendEmails())
+        .pipe(sendEmails(mailOption))
     }
 
  //the roundtrip back to 

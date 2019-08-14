@@ -10,15 +10,19 @@ var aws = require('aws-sdk');
 const through2 = require('through2')
 var CRLF = '\r\n'
 
-export function sendEmails() {
-  aws.config.loadFromPath('config.json');
 
+export function sendEmails(configObj?:string) {
+  aws.config.loadFromPath('config.json');
+  if(configObj==undefined)
+  {
+    configObj="";
+  }
 // create Nodemailer SES transporter
-  let transporter = nodemailer.createTransport({
-    SES: new aws.SES({
-        apiVersion: '2010-12-01'
-    })
-  });
+ let transporter = nodemailer.createTransport({
+        SES: new aws.SES({
+            apiVersion: '2010-12-01'
+        })
+      });
 
   
   function modifyContents(file: Vinyl, cb:Function) {
@@ -31,23 +35,41 @@ export function sendEmails() {
     let fileBuf : Buffer = (file.contents as Buffer)
     let rawMessage2 = fileBuf.toString('utf8')
     
-    var mailOptions2 = {
-         envelope: {
-              
-          },
-          raw: rawMessage2
-      };
+  
+     if(configObj=="SES" || configObj == ""){
+
+      let transporter = nodemailer.createTransport({
+        SES: new aws.SES({
+            apiVersion: '2010-12-01'
+        })
+      });
       
+      var mailOptions2 = {
+        envelope: {
+             
+         },
+         raw: rawMessage2
+     };
+
      transporter.sendMail(mailOptions2, function(error, info){
             if(error){
                 return console.log(error);
             }
             console.log('Message sent: ' + info.response);
-        });
+        })}
+
+      else if(configObj=="SMTP")
+      {
+        console.log("SMTP configuration coming soon")
+      }
+
+      else {
+        console.log("Invalid Mail option");
+      }
   
 
   }
-    
+
   }
   return map(modifyContents);
 };
