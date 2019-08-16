@@ -4,6 +4,7 @@ This plugin is a wrapper for ['SES-Transport'](https://nodemailer.com/transports
 
 The goal of this plugin is to take a MIME file and decode it and send an email using amazon SES. The MIME files are passed through gulp.src in the gulpfile.
 
+The user will need to modify first two lines of the eml file available in "test data" folder to enter their own email address and senders email address
 A sample MIME may look something like
 ```
 From: "Sender Name" <sender@email.com>
@@ -52,13 +53,13 @@ QW5heWEsSXllbmdhcixJbmRpYQ==
 
 The SES Transport does require an envelop but it can accept an empty envelop as well since the sender and reciever can be retrieved from the mime file.
 
-The plugin accepts a paramter which can be either "SES" or "SMTP". If no parameter is provided, it will assume its SES, and proceed accordingly. SMTP is coming soon so if the user provides "SMTP" as parameter, it will say "SMTP configuration coming soon"
+The plugin accepts a paramter which is for verification of the AWS credentials
 
 ##### Sample gulpfile.js
 ```
 let gulp = require('gulp')
 import {sendEmails} from 'gulp-email-adapter'
-var sampleConfigObj = "SES"; // sample configObj
+var simpleConfigObj = { "accessKeyId": "Enter your access key", "secretAccessKey": "ENter your access secret", "region": "enter region" };; // sample configObj
 
 export function sendMail (callback:any) {
       gulp.src('../testdata/testA.eml')

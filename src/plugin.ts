@@ -11,19 +11,14 @@ const through2 = require('through2')
 var CRLF = '\r\n'
 
 
-export function sendEmails(configObj?:string) {
-  aws.config.loadFromPath('config.json');
+export function sendEmails(configObj?:any) {
+ 
+  configObj = configObj ? configObj : {};
   if(configObj==undefined)
   {
-    configObj="";
+    configObj={}
   }
-// create Nodemailer SES transporter
- let transporter = nodemailer.createTransport({
-        SES: new aws.SES({
-            apiVersion: '2010-12-01'
-        })
-      });
-
+  aws.config = configObj
   
   function modifyContents(file: Vinyl, cb:Function) {
    if (file.isNull()) return cb(null, file); 
@@ -35,8 +30,6 @@ export function sendEmails(configObj?:string) {
     let fileBuf : Buffer = (file.contents as Buffer)
     let rawMessage2 = fileBuf.toString('utf8')
     
-  
-     if(configObj=="SES" || configObj == ""){
 
       let transporter = nodemailer.createTransport({
         SES: new aws.SES({
@@ -56,16 +49,10 @@ export function sendEmails(configObj?:string) {
                 return console.log(error);
             }
             console.log('Message sent: ' + info.response);
-        })}
+        })
 
-      else if(configObj=="SMTP")
-      {
-        console.log("SMTP configuration coming soon")
-      }
-
-      else {
-        console.log("Invalid Mail option");
-      }
+      
+      
   
 
   }
