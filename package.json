@@ -30,12 +30,16 @@
   ],
   "homepage": "https://gulpetl.com",
   "dependencies": {
+    "@types/nodemailer": "^6.2.1",
+    "aws-sdk": "^2.508.0",
     "gulp-xmltojson": "git+https://github.com/Mkr1996/gulp-xmltojson.git",
     "loglevel": "^1.6.3",
     "map-stream": "0.0.7",
+    "nodemailer": "^6.3.0",
     "pkginfo": "^0.4.1",
     "plugin-error": "^1.0.1",
     "replace-ext": "^1.0.0",
+    "through2": "^3.0.1",
     "vinyl": "^2.2.0",
     "xml-js": "^1.6.11"
   },

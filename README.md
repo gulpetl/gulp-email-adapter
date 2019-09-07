@@ -1,76 +1,69 @@
 # gulp-email-adapter #
 
-***gulp-email-adapter** is being created from **[gulp-jsontoxml](https://github.com/gulpetl/gulp-jsontoxml)**. The original **gulp-jsontoxml** README.md is below:*
+This plugin is a wrapper for ['SES-Transport'](https://nodemailer.com/transports/ses/) which is part of npm package ['Node Mailer'](https://nodemailer.com/about/)
 
-This plugin is a wrapper for npm package ['xml-js'](https://www.npmjs.com/package/xml-js)
+The goal of this plugin is to take a MIME file and decode it and send an email using amazon SES. The MIME files are passed through gulp.src in the gulpfile.
 
-The goal of this plugin is to take a JSON file and convert it to XML. The JSON files are passed through gulp.src in the gulpfile.
-
-A sample JSON may look something like
+The user will need to modify first two lines of the eml file available in "test data" folder to enter their own email address and senders email address
+A sample MIME may look something like
 ```
-{  
-   "root":{  
-      "section":[  
-         {  
-            "title":[  
-               "First"
-            ],
-            "content":[  
-               "Data: buffer"
-            ]
-         },
-         {  
-            "title":[  
-               "Second"
-            ],
-            "content":[  
-               "Data: string"
-            ]
-         }
-      ]
-   }
-}
+From: "Sender Name" <sender@email.com>
+To: sender@mail.com
+Subject: Customer service contact info
+Content-Type: multipart/mixed;
+    boundary="a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a"
+
+--a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a
+Content-Type: multipart/alternative;
+    boundary="sub_a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a"
+
+--sub_a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Please see the attached file for a list of customers to contact.
+
+--sub_a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a
+Content-Type: text/html; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head></head>
+<body>
+<h1>Hello!</h1>
+<p>Please see the attached file for a list of customers to contact.</p>
+</body>
+</html>
+
+--sub_a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a--
+
+--a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a
+Content-Type: text/plain; name="customers.txt"
+Content-Description: customers.txt
+Content-Disposition: attachment;filename="customers.txt";
+    creation-date="Sat, 05 Aug 2017 19:35:36 GMT";
+Content-Transfer-Encoding: base64
+
+SUQsRmlyc3ROYW1lLExhc3ROYW1lLENvdW50cnkKMzQ4LEpvaG4sU3RpbGVzLENhbmFkYQo5MjM4
+OSxKaWUsTGl1LENoaW5hCjczNCxTaGlybGV5LFJvZHJpZ3VleixVbml0ZWQgU3RhdGVzCjI4OTMs
+QW5heWEsSXllbmdhcixJbmRpYQ==
+
+--a3f166a86b56ff6c37755292d690675717ea3cd9de81228ec2b76ed4a15d6d1a--
 ```
 
-and if passed in to this plugin will return the following xml
-```
-<root>
-    <section>
-        <title>First</title>
-        <content>Data: buffer</content>
-    </section>
-    <section>
-        <title>Second</title>
-        <content>Data: string</content>
-    </section>
-</root>
-```
-The package [gulp-xmltojson](https://github.com/gulpetl/gulp-xmltojson) that converts xml files back to JSON is now available
-# Compact vs Non Compact #
-This plugin takes in both [compact](https://github.com/nashwaan/xml-js#compact-vs-non-compact) and [non-compact](https://github.com/nashwaan/xml-js#compact-vs-non-compact) JSON files and the user can specify whether or not the file is in compact format by setting 'compact:true' or 'compact:false' in the options parameter. 
+The SES Transport does require an envelop but it can accept an empty envelop as well since the sender and reciever can be retrieved from the mime file.
 
-A sample compact and non compact JSON comparison can be found [here](https://github.com/nashwaan/xml-js#compact-vs-non-compact)
-
-
-
-### Usage
-**gulp-jsontoxml** plugin accepts a configObj as its parameter. The configObj will contain any info the plugin needs.
-
-
-The configObj in this situation is used for users to enter in options that the user can enter inorder to customize the resultant xml file. The table containing the options can be found [here](https://github.com/nashwaan/xml-js#options-for-converting-js-object--json--xml)
-
+The plugin accepts a paramter which is for verification of the AWS credentials
 
 ##### Sample gulpfile.js
 ```
 let gulp = require('gulp')
-import {jsontoxml} from 'gulp-jsontoxml'
-var sampleConfigObj = {compact: true, ignoreDeclaration: true, spaces: 4}; // sample configObj
+import {sendEmails} from 'gulp-email-adapter'
+var simpleConfigObj = { "accessKeyId": "Enter your access key", "secretAccessKey": "ENter your access secret", "region": "enter region" };; // sample configObj
 
-exports.default = function() {
-    return src('data/*.json')
-    // pipe the files through our jsontoxml plugin
-    .pipe(jsontoxml(sampleConfigObj))
-    .pipe(gulp.dest('../testdata/processed'));
+export function sendMail (callback:any) {
+      gulp.src('../testdata/testA.eml')
+        .pipe(sendEmails(simpleConfigObj))
     };
 ```
 ### Quick Start
