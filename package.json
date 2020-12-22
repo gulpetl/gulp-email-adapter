@@ -2,7 +2,7 @@
   "name": "gulp-email-adapter",
   "version": "0.0.1",
   "repository": "https://github.com/gulpetl/gulp-email-adapter",
-  "description": "Sends emails with gulp via SMTP, AWS SES, etc",
+  "description": "Send emails with gulp via SMTP, AWS SES, etc",
   "main": "dist/js/plugin.js",
   "typings": "dist/types/plugin.d.ts",
   "files": [
@@ -34,6 +34,7 @@
   "homepage": "https://gulpetl.com",
   "dependencies": {
     "aws-sdk": "^2.797.0",
+    "camelcase": "^6.2.0",
     "loglevel": "^1.7.0",
     "map-stream": "0.0.7",
     "merge": "^2.1.0",

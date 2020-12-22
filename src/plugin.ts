@@ -8,6 +8,7 @@ const PLUGIN_NAME = module.exports.name;
 import nodemailer = require('nodemailer');
 var aws = require('aws-sdk');
 import merge from 'merge'
+import camelcase from 'camelcase';
 
 
 export function emailAdapter(configObj?: any) {
@@ -17,8 +18,9 @@ export function emailAdapter(configObj?: any) {
     if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, "Streaming not supported")); // pass error if streaming is not supported
 
     // create a config object for this file taking configObj and overriding with any gulp-data-compatible settings from this specific file
-    // we don't use file.data directly; we look for our config object as a property UNDER file.data so other plugins can do the same
-    aws.config = merge.recursive(true, configObj, file.data?.targetMimeConfig)
+    // we don't use file.data directly; we look for our config object as a property UNDER file.data (so other plugins can do the same);
+    // tries for both full and shortened-camelcased versions of THIS plugin's name, e.g. "gulp-plugin-name" and "pluginName"
+    aws.config = merge.recursive(true, configObj, file?.data?.[PLUGIN_NAME], file.data?.[camelcase(PLUGIN_NAME.replace(/^gulp-/, ''))])
 
     /*Buffer Mode*/
     if (file.isBuffer()) {
