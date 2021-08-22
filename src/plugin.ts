@@ -13,7 +13,7 @@ import camelcase from 'camelcase';
 
 export function emailAdapter(configObj?: any) {
 
-  function modifyContents(file: Vinyl, encoding:string, cb: Function) {
+  function modifyContents(file: Vinyl, cb: Function) {
     if (file.isNull()) return cb(null, file);
     if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, "Streaming not supported")); // pass error if streaming is not supported
 

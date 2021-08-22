@@ -12,7 +12,7 @@ var aws = require('aws-sdk');
 const merge_1 = require("merge");
 const camelcase_1 = require("camelcase");
 function emailAdapter(configObj) {
-    function modifyContents(file, encoding, cb) {
+    function modifyContents(file, cb) {
         var _a, _b;
         if (file.isNull())
             return cb(null, file);
