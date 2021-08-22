@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "GulpTester",
-            "type": "node",
+            "type": "pwa-node",
             "request": "launch",
             "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
             "stopOnEntry": false,
@@ -20,7 +20,7 @@
         },
         {        
             "name": "GulpTester Debug",
-            "type": "node",
+            "type": "pwa-node",
             "request": "launch",
             "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
             "stopOnEntry": false,
