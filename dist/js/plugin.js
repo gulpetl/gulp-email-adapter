@@ -12,7 +12,7 @@ var aws = require('aws-sdk');
 const merge_1 = require("merge");
 const camelcase_1 = require("camelcase");
 function emailAdapter(configObj) {
-    function modifyContents(file, cb) {
+    function modifyContents(file, encoding, cb) {
         var _a, _b;
         if (file.isNull())
             return cb(null, file);
@@ -42,6 +42,7 @@ function emailAdapter(configObj) {
                 console.log('Message sent: ' + info.response);
             });
         }
+        return cb(null, file);
     }
     return map(modifyContents);
 }
