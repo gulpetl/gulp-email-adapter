@@ -1,6 +1,6 @@
 {
   "name": "gulp-email-adapter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": "https://github.com/gulpetl/gulp-email-adapter",
   "description": "Send emails with gulp via SMTP, AWS SES, etc",
   "main": "dist/js/plugin.js",
